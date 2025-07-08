@@ -79,7 +79,7 @@ class MemoryBlogStore(BlogStore):
                 return
         raise Exception("Blog not found")
     
-    # 新增：点赞/取消点赞功能，每个用户可切换点赞状态
+    # 支持点赞和取消点赞：已点赞则取消，未点赞则点赞
     def like_blog(self, blog_id: int, username: str) -> int:
         blog = self.get_blog(blog_id)
         if not blog:
