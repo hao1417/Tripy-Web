@@ -28,8 +28,8 @@ git config --global user.email "your_email@example.com"
 
 ```powershell
 # 创建并激活虚拟环境
-# 临时放开执行策略
-# Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass（如遇到授权失败）
+# 临时放开执行策略（如遇到授权失败）
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 # 激活新虚拟环境
 .\venv\Scripts\activate
 # !!一定要确认是开发版本（3.13.5）（python --version）
@@ -51,6 +51,21 @@ pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
 
 ```bash
 pip install "fastapi[standard]" uvicorn python-jose sqlalchemy "passlib[bcrypt]"
+```
+
+### 环境变量配置
+在运行服务前，可在根目录创建 `.env` 文件，配置如下：
+
+```properties
+# 服务端口
+TUNNEL_PORT=8000
+# 隧道模式，可选：
+#   不设置或空：不启用内网穿透
+#   ngrok：使用 ngrok 隧道（需安装 ngrok 并配置 NGROK_AUTH_TOKEN）
+#   localtunnel 或 lt：使用 localtunnel 隧道（需全局安装 localtunnel CLI：npm install -g localtunnel）
+TUNNEL_MODE=ngrok
+# ngrok 授权令牌（可选，ngrok 隧道）
+NGROK_AUTH_TOKEN=你的_ngrok_令牌
 ```
 
 ### 启动服务
@@ -82,3 +97,17 @@ PT2 测试
 恐龙游戏：http://127.0.0.1:8000/static/pages/dino_game.html
 登录/注册：http://127.0.0.1:8000/static/pages/login.html
 如有问题请在 issues 区反馈。
+
+### Node.js 安装（如需 localtunnel 内网穿透）
+请先安装 Node.js（https://nodejs.org/zh-cn/download/），建议 LTS 版本。
+安装完成后，命令行输入 `node -v` 和 `npm -v` 验证。
+
+### 安装 localtunnel CLI
+如需使用 localtunnel 内网穿透，需全局安装 localtunnel：
+```powershell
+npm install -g localtunnel
+```
+安装完成后，`lt --version` 应能输出版本号。
+
+### requirements.txt 依赖说明
+本项目依赖 Python 包见 requirements.txt，已包含 pyngrok、localtunnel（Node.js CLI 需单独 npm 安装）。

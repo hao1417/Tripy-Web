@@ -21,7 +21,9 @@ class UserOut(BaseModel):
 
 # 新增：用户更新模型
 class UserUpdate(BaseModel):
-    nickname: str
+    nickname: str | None = None
+    old_password: str | None = None
+    new_password: str | None = None
 
 class BlogCreate(BaseModel):
     title: str
@@ -39,7 +41,7 @@ class BlogSchema(BaseModel):
     comments: List["CommentSchema"] = []
 
     class Config:
-        orm_mode = True
+        from_attributes = True  # Pydantic V2: 使用 from_attributes 替代 orm_mode
 
 class CommentCreate(BaseModel):
     content: str
@@ -52,7 +54,7 @@ class CommentSchema(BaseModel):
     created_at: datetime
 
     class Config:
-        orm_mode = True
+        from_attributes = True  # Pydantic V2: 使用 from_attributes 替代 orm_mode
 
 # 添加分数提交和排行榜输出模型
 class ScoreSubmit(BaseModel):
