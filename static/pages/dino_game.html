@@ -89,12 +89,12 @@
       w: 40 * SCALE,
       h: 40 * SCALE,
       y: 0, vy: 0,
-      gravity: 0.6 * SCALE,
-      jumpForce: 24 * SCALE,
+      gravity: 0.3 * SCALE, // 下落速度减慢，下降时间变为原来两倍
+      jumpForce: 34 * SCALE, // 跳跃力度增大
       grounded: false,
       baseY: 0
     };
-    let obstacles = [], frame=0, score=0, speed=1.5*SCALE, spawnTimer=0, gameActive=true;
+    let obstacles = [], frame=0, score=0, speed=2.2*SCALE, spawnTimer=0, gameActive=true; // 初始速度更快
 
     function resizeCanvas(){
       // 减去 header 高度
@@ -123,7 +123,7 @@
       requestAnimationFrame(update);
     }
     function spawnObstacle(){
-      const h0 = 20 + Math.random()*30;
+      const h0 = 20 + Math.random()*18; // 最高高度减小
       const h = h0 * SCALE;
       const groundY = canvas.height - groundHeight;
       obstacles.push({ x:canvas.width, y:groundY - h, w:20*SCALE, h, passed:false });
@@ -178,7 +178,7 @@
         dino.grounded=false;
         if (window.gsap) {
           gsap.to(dino, {
-            y: dino.baseY - 80*SCALE,
+            y: dino.baseY - 110*SCALE, // 跳跃高度增大
             duration:0.35, ease:"power2.out",
             onComplete: ()=>gsap.to(dino,{ y:dino.baseY, duration:0.4, ease:"bounce.out",
               onComplete: ()=>dino.grounded=true })
